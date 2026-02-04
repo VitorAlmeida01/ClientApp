@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { CadastrarGastosComponent } from './pages/cadastrar-gastos/cadastrar-gastos.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
+import { PerfilPageComponent } from './pages/perfil-page/perfil-page.component';
 
 export const routes: Routes = [
     {
@@ -18,7 +19,10 @@ export const routes: Routes = [
     {
         path: 'gastos', component: CadastrarGastosComponent
     },
-        {
+    {
         path: 'dashboard', component: DashboardPageComponent
+    },
+        {
+        path: 'perfil', component: PerfilPageComponent
     }
 ];

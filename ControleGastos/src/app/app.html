@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" >
 
   <span><a routerLink="">Controle de Gastos</a></span>
   <span class="spacer"></span>
@@ -16,6 +16,10 @@
         <a routerLink="/dashboard">
       <mat-icon fontIcon="dashboard"></mat-icon>
       Dashboard
+    </a>
+    <a routerLink="/perfil">
+      <mat-icon fontIcon="account_circle"></mat-icon>
+      Meu perfil
     </a>
     <a (click)="authService.logout()" style="cursor: pointer">
       <mat-icon fontIcon="logout"></mat-icon>

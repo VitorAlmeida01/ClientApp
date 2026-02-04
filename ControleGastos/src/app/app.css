@@ -5,4 +5,7 @@ a{
     margin-left: 5px;
     text-align: center;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
