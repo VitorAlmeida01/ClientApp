@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+
+  <span><a routerLink="">Controle de Gastos</a></span>
+  <span class="spacer"></span>
+
+  @if (!authService.isLoggedIn()) {
+    <a routerLink="/signUp">
+      <mat-icon fontIcon="feed"></mat-icon>
+      Cadastrar
+    </a>
+    <a routerLink="login">
+      <mat-icon fontIcon="login"></mat-icon>
+      Login
+    </a>
+  }@else {
+        <a routerLink="/dashboard">
+      <mat-icon fontIcon="dashboard"></mat-icon>
+      Dashboard
+    </a>
+    <a (click)="authService.logout()" style="cursor: pointer">
+      <mat-icon fontIcon="logout"></mat-icon>
+      Sair
+    </a>
+  }
+
+</mat-toolbar>
+
+<router-outlet></router-outlet>
+
+<mat-toolbar color="secondary">
+  <span class="text-center">© 2026 Controle de Gastos</span>
+</mat-toolbar>

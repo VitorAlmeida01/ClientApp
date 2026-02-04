@@ -1,0 +1,10 @@
+<app-screen-base>
+    <app-card-cadastro-gastos (gastosOutput)="receberDados($event)"></app-card-cadastro-gastos>
+    <div class="flex flex-1 flex-wrap h-full ">
+
+        @for (gasto of gastos; track gasto.id) {
+            <app-card-gastos [gastoInput]="gasto"></app-card-gastos>
+        }
+
+    </div>
+</app-screen-base>

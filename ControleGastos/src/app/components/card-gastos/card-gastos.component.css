@@ -1,0 +1,9 @@
+.example-card {
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.example-full-width {
+  width: 100%;
+}
