@@ -10,7 +10,7 @@ import { GastoDto } from '../../models/Gasto/GastoDto';
 export class GastosService {
 
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/gastos';
+  private apiUrl = '/api/gastos';
 
 
   getGastos(): Observable<GastoModel[]> {
@@ -23,6 +23,16 @@ export class GastosService {
   }
 
   setGastos(gastos: GastoDto): Observable<GastoModel>{
-    return this.http.post<GastoModel>(`${this.apiUrl}`, gastos)
+    return this.http.post<GastoModel>(`${this.apiUrl}`, gastos).pipe(
+      catchError(error => {
+        console.error('❌ Erro ao cadastrar gasto:', error);
+        console.error('Status:', error.status);
+        console.error('Mensagem:', error.message);
+        if (error.status === 403) {
+          console.error('🚫 Erro 403: Token inválido, expirado ou sem permissão');
+        }
+        throw error;
+      })
+    );
   }
 }

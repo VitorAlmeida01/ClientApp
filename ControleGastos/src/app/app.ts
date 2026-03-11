@@ -14,5 +14,8 @@ import { AuthService } from './services/Auth/auth.service';
 export class App {
   authService = inject(AuthService);
 
+  onLogout(){
+    this.authService.logout()
+  }
   
 }

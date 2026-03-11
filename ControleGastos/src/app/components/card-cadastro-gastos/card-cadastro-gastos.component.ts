@@ -35,7 +35,9 @@ export class CardCadastroGastosComponent {
     this.gastosOutput.emit({
       tipo: this.tipo,
       valor: this.valor
-    })
+    })  
+
+    console.log(`Categoria: ${this.tipo}, Valor: ${this.valor}`)
 
     this.tipo = ''
     this.valor = undefined!

@@ -26,13 +26,14 @@ export class CardGastosComponent implements OnInit, OnChanges {
 
 
 
+
   ngOnInit(): void {
     console.log(this.gastoInput)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['gastoInput']){
-      
+      console.log(this.gastoInput)
     }
   }
 

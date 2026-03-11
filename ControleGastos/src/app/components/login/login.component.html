@@ -8,17 +8,17 @@
                 <mat-card-title>Login</mat-card-title>
             </mat-card-header>
             <mat-card-content class="flex flex-col space-y-4">
-                <form class="example-form">
+                <div class="example-form">
                     <mat-form-field class="example-full-width">
                         <mat-label>E-mail</mat-label>
-                        <input matInput placeholder="joao@email.com">
+                        <input matInput placeholder="joao@email.com" [(ngModel)]="email">
                     </mat-form-field>
 
                     <mat-form-field class="example-full-width">
                         <mat-label>Senha</mat-label>
-                        <input matInput placeholder="***">
+                        <input matInput placeholder="***" [(ngModel)]="senha">
                     </mat-form-field>
-                </form>
+                </div>
             </mat-card-content>
             <mat-card-actions>
                     <button mat-raised-button color="primary" (click)="onLogin()">Logar</button>

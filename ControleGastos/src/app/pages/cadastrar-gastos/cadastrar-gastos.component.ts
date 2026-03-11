@@ -34,11 +34,22 @@ export class CadastrarGastosComponent implements OnInit {
     this.gastosService.setGastos(gasto).subscribe({
       next: (novoGasto) => {
         // ✅ 2. Adiciona com ID real do banco
-        this.gastos.push(novoGasto);
+        // this.gastos.push(novoGasto);
+        // Recarrega a lista completa do backend
+        this.gastosService.getGastos().subscribe(data => {
+          this.gastos = data
+        })
       },
       error: (erro) => {
         console.error('Erro ao salvar gasto:', erro);
-        alert('Erro ao cadastrar gasto. Tente novamente.');
+        
+        if (erro.status === 403) {
+          alert('❌ Erro 403: Sua sessão expirou ou você não tem permissão. Faça login novamente.');
+        } else if (erro.status === 401) {
+          alert('❌ Erro 401: Não autenticado. Faça login novamente.');
+        } else {
+          alert(`❌ Erro ao cadastrar gasto (${erro.status}). Tente novamente.`);
+        }
       }
     });
   }

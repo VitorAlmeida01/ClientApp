@@ -8,6 +8,7 @@ import { AuthService } from '../../services/Auth/auth.service';
 import { Router } from '@angular/router';
 import { GastosService } from '../../services/Gastos/gastos.service';
 import { GastoModel } from '../../models/Gasto/Gasto';
+import { UsuarioRequestDto } from '../../models/Usuario/UsuarioRequestDto';
 
 @Component({
   selector: 'app-login',
@@ -20,16 +21,33 @@ export class LoginComponent{
   authService = inject(AuthService);
   router = inject(Router);
 
+  email: string = ''
+  senha: string = ''
 
 
 
   onLogin() {
     console.log('Antes do login:', this.authService.isLoggedIn());
-    this.authService.login();
-    console.log('Depois do login:', this.authService.isLoggedIn());
-
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/gastos']);
-    }
+    
+    const usuario: UsuarioRequestDto = {
+      email: this.email,
+      senha: this.senha
+    };
+    
+    this.authService.onLogin(usuario).subscribe({
+      next: (response) => {
+        // Salva o token recebido da API
+        if (response.token) {
+          this.authService.saveToken(response.token);
+        }
+        console.log('Depois do login:', this.authService.isLoggedIn());
+        if (this.authService.isLoggedIn()) {
+          this.router.navigate(['/gastos']);
+        }
+      },
+      error: (error) => {
+        console.error('Erro no login:', error);
+      }
+    });
   }
 }
