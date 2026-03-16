@@ -16,6 +16,11 @@
             </div>
 
             <div>
+                <p class="font-bold">Descricao:</p>
+                <p>{{ gastoInput.descricao || '-' }}</p>
+            </div>
+
+            <div>
                 <p class="font-bold">Valor:</p>
                 <p>{{ gastoInput.valor | currency:'BRL' }}</p>
             </div>

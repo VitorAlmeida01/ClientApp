@@ -38,6 +38,7 @@
                 <thead>
                     <tr>
                         <th>Categoria</th>
+                        <th>Descricao</th>
                         <th>Valor</th>
                         <th>Data de criacao</th>
                         <th>ID</th>
@@ -48,12 +49,13 @@
                 <tbody>
                     @if (gastosFiltrados.length === 0) {
                         <tr>
-                            <td colspan="6" class="empty-row">Nenhum gasto encontrado para os filtros aplicados.</td>
+                            <td colspan="7" class="empty-row">Nenhum gasto encontrado para os filtros aplicados.</td>
                         </tr>
                     } @else {
                         @for (gasto of gastosFiltrados; track gasto.id) {
                             <tr>
                                 <td>{{ gasto.tipo }}</td>
+                                <td>{{ gasto.descricao || '-' }}</td>
                                 <td>{{ gasto.valor | currency: 'BRL' }}</td>
                                 <td>{{ gasto.dtCriacao | date: 'dd/MM/yyyy HH:mm' }}</td>
                                 <td class="id-cell">{{ gasto.id }}</td>
@@ -94,6 +96,11 @@
             <mat-form-field class="modal-field">
                 <mat-label>Valor</mat-label>
                 <input matInput type="number" min="0" step="0.01" placeholder="Ex: 150.50" [(ngModel)]="valorNovoGasto" name="valorNovoGasto" />
+            </mat-form-field>
+
+            <mat-form-field class="modal-field">
+                <mat-label>Descricao</mat-label>
+                <input matInput type="text" maxlength="200" placeholder="Ex: Compra no mercado" [(ngModel)]="descricaoNovoGasto" name="descricaoNovoGasto" />
             </mat-form-field>
 
             <div class="modal-actions">

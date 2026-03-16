@@ -17,6 +17,7 @@ import { CategoriaModel } from '../../models/Categoria/CategoriaModel';
 export class CardCadastroGastosComponent implements OnInit {
 
   categoriaId = '';
+  descricao = '';
   valor!: number
 
   gastosService = inject(GastosService)
@@ -34,17 +35,19 @@ export class CardCadastroGastosComponent implements OnInit {
 
 
   salvar() {
-    if (!this.categoriaId || !this.valor) {
+    if (!this.categoriaId || !this.descricao.trim() || !this.valor) {
       alert('Preencha todos os campos!');
       return;
     }
 
     this.gastosOutput.emit({
       categoriaId: this.categoriaId,
+      descricao: this.descricao.trim(),
       valor: this.valor
     });
 
     this.categoriaId = '';
+    this.descricao = '';
     this.valor = undefined!;
   }
 

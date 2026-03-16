@@ -44,6 +44,7 @@ export class CadastrarGastosComponent implements OnInit {
   modalModo: 'cadastro' | 'edicao' = 'cadastro';
   gastoEmEdicaoId: string | null = null;
   categoriaIdNovoGasto = '';
+  descricaoNovoGasto = '';
   valorNovoGasto: number | null = null;
 
   filtroCategoria = 'todos';
@@ -58,6 +59,7 @@ export class CadastrarGastosComponent implements OnInit {
     this.modalModo = 'cadastro';
     this.gastoEmEdicaoId = null;
     this.categoriaIdNovoGasto = '';
+    this.descricaoNovoGasto = '';
     this.valorNovoGasto = null;
     this.modalAberto = true;
   }
@@ -73,6 +75,7 @@ export class CadastrarGastosComponent implements OnInit {
     this.modalModo = 'edicao';
     this.gastoEmEdicaoId = gasto.id;
     this.categoriaIdNovoGasto = categoriaSelecionada.id;
+    this.descricaoNovoGasto = gasto.descricao ?? '';
     this.valorNovoGasto = gasto.valor;
     this.modalAberto = true;
   }
@@ -82,6 +85,7 @@ export class CadastrarGastosComponent implements OnInit {
     this.modalModo = 'cadastro';
     this.gastoEmEdicaoId = null;
     this.categoriaIdNovoGasto = '';
+    this.descricaoNovoGasto = '';
     this.valorNovoGasto = null;
   }
 
@@ -94,8 +98,8 @@ export class CadastrarGastosComponent implements OnInit {
   }
 
   cadastrarGasto(): void {
-    if (!this.categoriaIdNovoGasto || this.valorNovoGasto === null || this.valorNovoGasto <= 0) {
-      alert('Preencha categoria e valor valido.');
+    if (!this.categoriaIdNovoGasto || !this.descricaoNovoGasto.trim() || this.valorNovoGasto === null || this.valorNovoGasto <= 0) {
+      alert('Preencha categoria, descricao e valor valido.');
       return;
     }
 
@@ -106,6 +110,7 @@ export class CadastrarGastosComponent implements OnInit {
 
     this.receberDados({
       categoriaId: this.categoriaIdNovoGasto,
+      descricao: this.descricaoNovoGasto.trim(),
       valor: this.valorNovoGasto
     });
   }
@@ -202,6 +207,7 @@ export class CadastrarGastosComponent implements OnInit {
     this.gastosService
       .updateGasto(this.gastoEmEdicaoId, {
         categoriaId: this.categoriaIdNovoGasto,
+        descricao: this.descricaoNovoGasto.trim(),
         valor: this.valorNovoGasto
       })
       .subscribe({

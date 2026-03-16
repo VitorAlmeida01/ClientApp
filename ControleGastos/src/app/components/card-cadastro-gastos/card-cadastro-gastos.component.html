@@ -21,6 +21,11 @@
                     <mat-label>Valor</mat-label>
                     <input type="number" matInput placeholder="R$ 10,00" [(ngModel)]="valor" name="valor">
                 </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Descricao</mat-label>
+                    <input type="text" matInput placeholder="Ex: Mercado da semana" [(ngModel)]="descricao" name="descricao" required>
+                </mat-form-field>
                 <mat-card-actions class="flex justify-center">
                     <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Cadastrar</button>
                 </mat-card-actions>

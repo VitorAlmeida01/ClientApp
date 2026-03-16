@@ -121,6 +121,7 @@
 					<li *ngFor="let gasto of gastosPeriodoSelecionado">
 						<div>
 							<strong>{{ gasto.tipo }}</strong>
+							<span *ngIf="gasto.descricao">{{ gasto.descricao }}</span>
 							<span>{{ gasto.dtCriacao | date: 'dd/MM/yyyy HH:mm' }}</span>
 						</div>
 						<p>{{ gasto.valor | currency: 'BRL' }}</p>
