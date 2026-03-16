@@ -8,26 +8,36 @@
                 <mat-card-title>Cadastre-se</mat-card-title>
             </mat-card-header>
             <mat-card-content class="flex flex-col space-y-4">
-                <form class="example-form">
+                <form class="example-form" (ngSubmit)="cadastrar()" #form="ngForm">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Nome</mat-label>
+                        <input matInput placeholder="Joao Almeida" [(ngModel)]="nome" name="nome" required>
+                    </mat-form-field>
                     <mat-form-field class="example-full-width">
                         <mat-label>E-mail</mat-label>
-                        <input matInput placeholder="joao@email.com">
+                        <input matInput placeholder="joao@example.com" [(ngModel)]="email" name="email" required>
                     </mat-form-field>
 
                     <mat-form-field class="example-full-width">
                         <mat-label>Senha</mat-label>
-                        <input matInput placeholder="***">
+                        <input matInput placeholder="***" [(ngModel)]="senha" name="senha" type="password" required>
                     </mat-form-field>
 
                     <mat-form-field class="example-full-width">
                         <mat-label>Confirmar senha</mat-label>
-                        <input matInput placeholder="***">
+                        <input matInput placeholder="***" [(ngModel)]="confirmacaoSenha" name="confirmacaoSenha"
+                            type="password" required>
                     </mat-form-field>
+                    @if (erroSenha) {
+                    <mat-error>As senhas não coincidem.</mat-error>
+                    }
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" type="submit"
+                            [disabled]="form.invalid">Cadastrar</button>
+                    </mat-card-actions>
                 </form>
             </mat-card-content>
-            <mat-card-actions>
-                <button mat-raised-button color="primary">Cadastrar</button>
-            </mat-card-actions>
+
         </mat-card>
     </div>
 

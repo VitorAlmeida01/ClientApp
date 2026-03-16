@@ -17,11 +17,6 @@ import { GastoModel } from '../../models/Gasto/Gasto';
   styleUrl: './card-gastos.component.css'
 })
 export class CardGastosComponent implements OnInit, OnChanges {
-
-  valor: number = 0
-
-  gastosService = inject(GastosService)
-
   @Input({required: true}) gastoInput!: GastoModel
 
 

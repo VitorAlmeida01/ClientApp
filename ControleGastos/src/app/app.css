@@ -1,11 +1,5 @@
-.spacer{
-    flex: 1 1 auto;
-}
-a{
-    margin-left: 5px;
+.text-center {
+    display: block;
+    width: 100%;
     text-align: center;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
 }

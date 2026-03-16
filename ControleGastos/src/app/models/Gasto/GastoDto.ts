@@ -1,4 +1,4 @@
 export interface GastoDto{
-    tipo: string,
-    valor: number
+    categoriaId: string;
+    valor: number;
 }

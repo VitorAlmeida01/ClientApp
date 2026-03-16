@@ -1,10 +1,109 @@
-<app-screen-base>
-    <app-card-cadastro-gastos (gastosOutput)="receberDados($event)"></app-card-cadastro-gastos>
-    <div class="flex flex-1 flex-wrap h-full ">
-
-        @for (gasto of gastos; track gasto.id) {
-            <app-card-gastos [gastoInput]="gasto"></app-card-gastos>
-        }
-
+<section class="gastos-page">
+    <div class="gastos-header">
+        <h2>Gastos</h2>
+        <button mat-raised-button color="primary" type="button" (click)="abrirModal()">
+            Cadastrar
+        </button>
     </div>
-</app-screen-base>
+
+    <mat-card appearance="outlined" class="filtros-card">
+        <div class="filtros-grid">
+            <mat-form-field>
+                <mat-label>Categoria</mat-label>
+                <select matNativeControl [(ngModel)]="filtroCategoria" name="filtroCategoria" (change)="onCategoriaFiltroChange()">
+                    <option value="todos">Todas</option>
+                    @for (categoria of categorias; track categoria.id) {
+                        <option [value]="categoria.tipo">{{ categoria.tipo }}</option>
+                    }
+                </select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Periodo</mat-label>
+                <select matNativeControl [(ngModel)]="filtroPeriodo" name="filtroPeriodo" (change)="onPeriodoFiltroChange()">
+                    <option value="todos">Todos</option>
+                    <option value="dia">Dia</option>
+                    <option value="semana">Semana</option>
+                    <option value="mes">Mes</option>
+                    <option value="seis-meses">6 meses</option>
+                    <option value="ano">Ano</option>
+                </select>
+            </mat-form-field>
+        </div>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="gastos-table-card">
+        <div class="table-wrapper">
+            <table class="gastos-table">
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Valor</th>
+                        <th>Data de criacao</th>
+                        <th>ID</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (gastosFiltrados.length === 0) {
+                        <tr>
+                            <td colspan="6" class="empty-row">Nenhum gasto encontrado para os filtros aplicados.</td>
+                        </tr>
+                    } @else {
+                        @for (gasto of gastosFiltrados; track gasto.id) {
+                            <tr>
+                                <td>{{ gasto.tipo }}</td>
+                                <td>{{ gasto.valor | currency: 'BRL' }}</td>
+                                <td>{{ gasto.dtCriacao | date: 'dd/MM/yyyy HH:mm' }}</td>
+                                <td class="id-cell">{{ gasto.id }}</td>
+                                <td>
+                                    <button mat-icon-button type="button" (click)="abrirModalEdicao(gasto)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button mat-icon-button color="warn" type="button" (click)="excluir(gasto.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </mat-card>
+</section>
+
+@if (modalAberto) {
+    <div class="modal-backdrop" (click)="fecharModal()">
+        <div class="modal-container" (click)="$event.stopPropagation()">
+            <h3>{{ modalModo === 'edicao' ? 'Editar gasto' : 'Cadastrar gasto' }}</h3>
+
+            <mat-form-field class="modal-field">
+                <mat-label>Categoria</mat-label>
+                <select matNativeControl [(ngModel)]="categoriaIdNovoGasto" name="categoriaIdNovoGasto">
+                    <option value="" disabled>Selecione uma categoria</option>
+                    @for (categoria of categorias; track categoria.id) {
+                        <option [value]="categoria.id">{{ categoria.tipo }}</option>
+                    }
+                </select>
+            </mat-form-field>
+
+            <mat-form-field class="modal-field">
+                <mat-label>Valor</mat-label>
+                <input matInput type="number" min="0" step="0.01" placeholder="Ex: 150.50" [(ngModel)]="valorNovoGasto" name="valorNovoGasto" />
+            </mat-form-field>
+
+            <div class="modal-actions">
+                <button mat-stroked-button type="button" (click)="fecharModal()">Cancelar</button>
+                <button mat-raised-button color="primary" type="button" (click)="cadastrarGasto()">
+                    {{ modalModo === 'edicao' ? 'Atualizar' : 'Salvar' }}
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+

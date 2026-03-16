@@ -1,5 +1,6 @@
 export interface GastoModel{
-    id: number,
+    id: string,
     tipo: string,
-    valor: number
+    valor: number,
+    dtCriacao: string
 }

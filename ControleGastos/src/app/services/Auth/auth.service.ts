@@ -5,6 +5,12 @@ import { Observable } from 'rxjs';
 import { UsuarioResponseDto } from '../../models/Usuario/UsuarioResponseDto';
 import { HttpClient } from '@angular/common/http';
 
+export interface UsuarioNavbarInfo {
+  roles: string[];
+  nome: string;
+  email: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +39,10 @@ export class AuthService {
     return this.http.post<UsuarioResponseDto>(`${this.apiUrl}`, usuario);
   }
 
+  getUsuarioNavbarInfo(): Observable<UsuarioNavbarInfo> {
+    return this.http.get<UsuarioNavbarInfo>('/api/auth/me');
+  }
+
   saveToken(token: string) {
     if (this.isBrowser) {
       sessionStorage.setItem('token', token);
@@ -53,11 +63,14 @@ export class AuthService {
     if (!token) return null;
 
     try {
-      // JWT tem 3 partes: header.payload.signature
       const payload = token.split('.')[1];
-      // Decodifica de base64
-      const decodedPayload = atob(payload);
-      // Converte para objeto
+      const normalizedPayload = payload.replace(/-/g, '+').replace(/_/g, '/');
+      const decodedPayload = decodeURIComponent(
+        atob(normalizedPayload)
+          .split('')
+          .map((char) => `%${char.charCodeAt(0).toString(16).padStart(2, '0')}`)
+          .join('')
+      );
       return JSON.parse(decodedPayload);
     } catch (error) {
       console.error('Erro ao decodificar token:', error);
@@ -74,7 +87,7 @@ export class AuthService {
   // Exemplo de métodos para campos específicos
   getUserId(): string | null {
     const decoded = this.decodeToken();
-    return decoded?.sub || decoded?.id || null;
+    return decoded?.id || decoded?.id || null;
   }
 
   getUserEmail(): string | null {
@@ -84,7 +97,22 @@ export class AuthService {
 
   getUserName(): string | null {
     const decoded = this.decodeToken();
-    return decoded?.name || decoded?.username || null;
+    return decoded?.nome || decoded?.username || null;
+  }
+
+  getUserRoles(): string[] {
+    const decoded = this.decodeToken();
+    const roles = decoded?.roles || decoded?.authorities || decoded?.role;
+
+    if (Array.isArray(roles)) {
+      return roles;
+    }
+
+    if (typeof roles === 'string' && roles.length > 0) {
+      return [roles];
+    }
+
+    return [];
   }
 
   logout() {

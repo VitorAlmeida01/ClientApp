@@ -1,0 +1,22 @@
+<div class="flex flex-col items-center gap-14">
+
+    <mat-card class="example-card " appearance="outlined">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Cadastre suas categorias</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="flex flex-col space-y-4">
+            <form class="example-form" (ngSubmit)="salvar()" #form="ngForm">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Categoria</mat-label>
+                      <input type="text" matInput placeholder="ex: Mercado" [(ngModel)]="categoria" name="categoria">
+                </mat-form-field>
+
+                <mat-card-actions class="flex justify-center">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Cadastrar</button>
+                </mat-card-actions>
+            </form>
+        </mat-card-content>
+
+    </mat-card>
+</div>

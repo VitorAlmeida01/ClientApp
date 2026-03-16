@@ -9,7 +9,12 @@
             <form class="example-form" (ngSubmit)="salvar()" #form="ngForm">
                 <mat-form-field class="example-full-width">
                     <mat-label>Categoria</mat-label>
-                    <input type="text" matInput placeholder="Mercado" [(ngModel)]="tipo" name="tipo">
+                    <select matNativeControl [(ngModel)]="categoriaId" name="categoriaId" required>
+                        <option value="" disabled>Selecione uma categoria</option>
+                        @for (categoria of categorias; track categoria.id) {
+                            <option [value]="categoria.id">{{ categoria.tipo }}</option>
+                        }
+                    </select>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">

@@ -1,25 +1,23 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ScreenBaseComponent } from "../../shared/screen-base/screen-base.component";
 import { CardPerfilComponent } from "../../components/card-perfil/card-perfil.component";
-import { GastosService } from '../../services/Gastos/gastos.service';
-import { UsuarioResponseDto } from '../../models/Usuario/UsuarioResponseDto';
 import { AuthService } from '../../services/Auth/auth.service';
 
 @Component({
   selector: 'app-perfil-page',
-  imports: [ScreenBaseComponent, CardPerfilComponent],
+  imports: [CardPerfilComponent],
   templateUrl: './perfil-page.component.html',
   styleUrl: './perfil-page.component.css'
 })
 export class PerfilPageComponent implements OnInit{
 
 
-  auth = inject(AuthService)
-  usuarioAtual!: UsuarioResponseDto
+  auth = inject(AuthService);
+  nomeUsuario = '';
+  emailUsuario = '';
 
-    ngOnInit(): void {
-    console.log(this.auth.decodeToken())
-    console.log(this.auth.getUserEmail())
+  ngOnInit(): void {
+    this.nomeUsuario = this.auth.getUserName() ?? 'Usuario';
+    this.emailUsuario = this.auth.getUserEmail() ?? 'email@nao-informado.com';
   }
 
 }

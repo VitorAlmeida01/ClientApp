@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, inject, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card'
 import { MatInputModule } from '@angular/material/input';
@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { GastoDto } from '../../models/Gasto/GastoDto';
 import { GastosService } from '../../services/Gastos/gastos.service';
+import { CategoriaModel } from '../../models/Categoria/CategoriaModel';
 
 @Component({
   selector: 'app-card-cadastro-gastos',
@@ -13,34 +14,38 @@ import { GastosService } from '../../services/Gastos/gastos.service';
   templateUrl: './card-cadastro-gastos.component.html',
   styleUrl: './card-cadastro-gastos.component.css'
 })
-export class CardCadastroGastosComponent {
+export class CardCadastroGastosComponent implements OnInit {
 
-  tipo!: string
+  categoriaId = '';
   valor!: number
 
-  // gastosService = inject(GastosService)
+  gastosService = inject(GastosService)
+  categorias: CategoriaModel[] = [];
 
   @Output() gastosOutput = new EventEmitter<GastoDto>()
 
   gastos: GastoDto = {} as GastoDto;  // ✅ Inicializa o objeto
 
+  ngOnInit(): void {
+    this.gastosService.getCategorias().subscribe((categorias) => {
+      this.categorias = categorias;
+    });
+  }
+
 
   salvar() {
-    if (!this.tipo || !this.valor) {
+    if (!this.categoriaId || !this.valor) {
       alert('Preencha todos os campos!');
       return;
     }
 
-
     this.gastosOutput.emit({
-      tipo: this.tipo,
+      categoriaId: this.categoriaId,
       valor: this.valor
-    })  
+    });
 
-    console.log(`Categoria: ${this.tipo}, Valor: ${this.valor}`)
-
-    this.tipo = ''
-    this.valor = undefined!
+    this.categoriaId = '';
+    this.valor = undefined!;
   }
 
 

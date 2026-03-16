@@ -1,0 +1,75 @@
+<section class="categorias-page">
+    <div class="categorias-header">
+        <h2>Categorias</h2>
+        <button mat-raised-button color="primary" type="button" (click)="abrirModal()">
+            Cadastrar
+        </button>
+    </div>
+
+    <mat-card appearance="outlined" class="categorias-table-card">
+        <div class="table-wrapper">
+            <table class="categorias-table">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Data de criacao</th>
+                        <th>ID</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (categorias.length === 0) {
+                        <tr>
+                            <td colspan="5" class="empty-row">Nenhuma categoria cadastrada.</td>
+                        </tr>
+                    } @else {
+                        @for (categoria of categorias; track categoria.id) {
+                            <tr>
+                                <td>{{ categoria.tipo }}</td>
+                                <td>{{ categoria.dtCriacao | date: 'dd/MM/yyyy HH:mm' }}</td>
+                                <td class="id-cell">{{ categoria.id }}</td>
+                                <td>
+                                    <button mat-icon-button type="button" (click)="abrirModalEdicao(categoria)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button mat-icon-button color="warn" type="button" (click)="excluir(categoria.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </mat-card>
+</section>
+
+@if (modalAberto) {
+    <div class="modal-backdrop" (click)="fecharModal()">
+        <div class="modal-container" (click)="$event.stopPropagation()">
+            <h3>{{ modalModo === 'edicao' ? 'Editar categoria' : 'Cadastrar categoria' }}</h3>
+
+            <mat-form-field class="modal-field">
+                <mat-label>Nome da categoria</mat-label>
+                <input
+                    matInput
+                    type="text"
+                    placeholder="Ex: Mercado"
+                    [(ngModel)]="novaCategoria"
+                    name="novaCategoria"
+                />
+            </mat-form-field>
+
+            <div class="modal-actions">
+                <button mat-stroked-button type="button" (click)="fecharModal()">Cancelar</button>
+                <button mat-raised-button color="primary" type="button" (click)="cadastrarCategoria()">
+                    {{ modalModo === 'edicao' ? 'Atualizar' : 'Salvar' }}
+                </button>
+            </div>
+        </div>
+    </div>
+}

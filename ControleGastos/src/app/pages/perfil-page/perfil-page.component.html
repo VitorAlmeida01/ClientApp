@@ -1,3 +1,9 @@
-<app-screen-base>
-    <app-card-perfil />
-</app-screen-base>
+<section class="flex max-w-full flex-col gap-5">
+    <div class="rounded-[18px] bg-[linear-gradient(130deg,#0f172a_0%,#1d4ed8_55%,#22d3ee_100%)] px-6 py-5 text-slate-50 shadow-[0_18px_40px_rgba(15,23,42,0.24)]">
+        <p class="m-0 text-xs uppercase tracking-[0.08em] opacity-90">Minha conta</p>
+        <h2 class="mt-1 text-[clamp(1.4rem,2.5vw,2rem)] font-extrabold leading-[1.15]">Perfil do usuario</h2>
+        <p class="mt-2 max-w-[56ch] text-[0.95rem] opacity-95">Acompanhe seus dados de acesso e mantenha suas informacoes atualizadas.</p>
+    </div>
+
+    <app-card-perfil [nome]="nomeUsuario" [email]="emailUsuario" />
+</section>

@@ -5,6 +5,8 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { CadastrarGastosComponent } from './pages/cadastrar-gastos/cadastrar-gastos.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 import { PerfilPageComponent } from './pages/perfil-page/perfil-page.component';
+import { CategoriasPageComponent } from './pages/categorias-page/categorias-page.component';
+import { authenticationGuard } from './services/authentication.guard';
 
 export const routes: Routes = [
     {
@@ -17,12 +19,15 @@ export const routes: Routes = [
         path: 'signUp', component: SignUpComponent
     },
     {
-        path: 'gastos', component: CadastrarGastosComponent
+        path: 'gastos', component: CadastrarGastosComponent, canActivate: [authenticationGuard]
     },
     {
-        path: 'dashboard', component: DashboardPageComponent
+        path: 'dashboard', component: DashboardPageComponent, canActivate: [authenticationGuard]
     },
-        {
-        path: 'perfil', component: PerfilPageComponent
+    {
+        path: 'perfil', component: PerfilPageComponent, canActivate: [authenticationGuard]
+    },
+    {
+        path: 'categorias', component: CategoriasPageComponent, canActivate: [authenticationGuard]
     }
 ];

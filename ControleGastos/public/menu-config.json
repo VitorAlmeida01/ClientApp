@@ -1,0 +1,30 @@
+[
+  {
+    "label": "Dashboard",
+    "route": "/dashboard",
+    "icon": "dashboard",
+    "description": "Resumo geral da sua conta",
+    "roles": ["ROLE_ADMIN", "ROLE_USER"]
+  },
+  {
+    "label": "Gastos",
+    "route": "/gastos",
+    "icon": "receipt_long",
+    "description": "Cadastro e listagem de gastos",
+    "roles": ["ROLE_USER", "ROLE_ADMIN"]
+  },
+  {
+    "label": "Perfil",
+    "route": "/perfil",
+    "icon": "account_circle",
+    "description": "Informacoes do usuario autenticado",
+    "roles": ["ROLE_USER", "ROLE_ADMIN"]
+  },
+  {
+    "label": "Categorias",
+    "route": "/categorias",
+    "icon": "category",
+    "description": "Cadastro e listagem de categorias",
+    "roles": ["ROLE_USER", "ROLE_ADMIN"]
+  }
+]

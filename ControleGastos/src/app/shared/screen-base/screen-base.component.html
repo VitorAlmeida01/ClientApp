@@ -1,3 +1,47 @@
-<div class="flex flex-1 flex-col gap-10 p-5 min-h-[calc(100vh-128px)]">
+<mat-toolbar color="primary" class="app-toolbar">
+    <a routerLink="/" class="brand-link">
+        <span>Controle de Gastos</span>
+    </a>
+
+    <span class="toolbar-spacer"></span>
+
+    @if (!authService.isLoggedIn()) {
+        <div class="toolbar-actions">
+            <a routerLink="/signUp" class="toolbar-link">
+                <mat-icon fontIcon="feed"></mat-icon>
+                <span>Cadastrar</span>
+            </a>
+            <a routerLink="/login" class="toolbar-link">
+                <mat-icon fontIcon="login"></mat-icon>
+                <span>Login</span>
+            </a>
+        </div>
+    } @else {
+        <nav class="toolbar-actions">
+            @for (item of menuItems(); track item.route) {
+                <a
+                    [routerLink]="item.route"
+                    routerLinkActive="toolbar-link--active"
+                    class="toolbar-link"
+                >
+                    <mat-icon [fontIcon]="item.icon"></mat-icon>
+                    <span>{{ item.label }}</span>
+                </a>
+            }
+        </nav>
+
+        <div class="toolbar-user">
+            <span class="toolbar-user__name">{{ userInfo()?.nome || authService.getUserName() || 'Usuario' }}</span>
+            <span class="toolbar-user__email">{{ userInfo()?.email || authService.getUserEmail() || '' }}</span>
+        </div>
+
+        <button mat-button type="button" class="toolbar-link toolbar-link--button" (click)="onLogout()">
+            <mat-icon fontIcon="logout"></mat-icon>
+            <span>Sair</span>
+        </button>
+    }
+</mat-toolbar>
+
+<div class="screen-body">
     <ng-content></ng-content>
 </div>

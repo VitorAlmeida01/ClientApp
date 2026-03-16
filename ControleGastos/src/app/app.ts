@@ -1,21 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet, RouterLink} from '@angular/router';
-import { MatButtonModule } from '@angular/material/button'
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from './services/Auth/auth.service';
+import { ScreenBaseComponent } from './shared/screen-base/screen-base.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet ,MatToolbarModule, MatIconModule, MatButtonModule, RouterLink],
+  imports: [RouterOutlet, MatToolbarModule, ScreenBaseComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  authService = inject(AuthService);
-
-  onLogout(){
-    this.authService.logout()
-  }
-  
-}
+export class App {}

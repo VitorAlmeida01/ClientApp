@@ -1,1 +1,132 @@
-<p>dashboard works!</p>
+<section class="dashboard-shell">
+	<header class="hero">
+		<div>
+			<p class="eyebrow">Panorama Financeiro</p>
+			<h1>Dashboard de Gastos</h1>
+			<p class="subtitle">Uma visao unica dos seus custos por periodo e categoria.</p>
+		</div>
+		<div class="hero-total">
+			<span>Total Geral</span>
+			<strong>{{ totalGeral | currency: 'BRL' }}</strong>
+		</div>
+	</header>
+
+	<div *ngIf="carregando" class="estado">Carregando dados da dashboard...</div>
+	<div *ngIf="!carregando && erro" class="estado erro">{{ erro }}</div>
+
+	<ng-container *ngIf="!carregando && !erro">
+		<section class="cards-resumo">
+			<article>
+				<span>Qtd. Lancamentos</span>
+				<strong>{{ quantidadeTotal }}</strong>
+			</article>
+			<article>
+				<span>Ticket Medio</span>
+				<strong>{{ mediaTicket | currency: 'BRL' }}</strong>
+			</article>
+			<article>
+				<span>Maior Janela</span>
+				<strong>{{ maiorPeriodo | currency: 'BRL' }}</strong>
+			</article>
+			<article>
+				<span>Periodo Atual</span>
+				<strong>{{ periodoAtual?.total || 0 | currency: 'BRL' }}</strong>
+			</article>
+		</section>
+
+		<section class="grade-principal">
+			<article class="painel linha">
+				<div class="painel-head">
+					<h2>Evolucao por Periodo</h2>
+					<p>Total de gastos por janela temporal</p>
+				</div>
+
+				<div class="chart-wrap">
+					<canvas #linhaChartCanvas></canvas>
+				</div>
+
+				<div class="linha-legenda">
+					<div *ngFor="let periodo of seriePeriodos" class="chip-legenda">
+						<span>{{ periodo.label }}</span>
+						<strong>{{ periodo.total | currency: 'BRL' }}</strong>
+					</div>
+				</div>
+			</article>
+
+			<article class="painel barras">
+				<div class="painel-head">
+					<h2>Ranking por Tipo</h2>
+					<p>Grafico de barras das categorias mais impactantes</p>
+				</div>
+
+				<div *ngIf="barrasPorTipo.length === 0" class="vazio">Sem dados por categoria ainda.</div>
+
+				<div class="chart-wrap barras" *ngIf="barrasPorTipo.length > 0">
+					<canvas #barraChartCanvas></canvas>
+				</div>
+			</article>
+		</section>
+
+		<section class="grade-secundaria">
+			<article class="painel periodos">
+				<div class="painel-head">
+					<h2>Filtro Rapido</h2>
+					<p>Troque o recorte temporal para ver o detalhe dos gastos</p>
+				</div>
+
+				<div class="botoes-periodo">
+					<button type="button" [class.ativo]="periodoSelecionado === 'dia'" (click)="selecionarPeriodo('dia')">
+						Hoje
+					</button>
+					<button
+						type="button"
+						[class.ativo]="periodoSelecionado === 'semana'"
+						(click)="selecionarPeriodo('semana')"
+					>
+						Semana
+					</button>
+					<button type="button" [class.ativo]="periodoSelecionado === 'mes'" (click)="selecionarPeriodo('mes')">
+						Mes
+					</button>
+					<button
+						type="button"
+						[class.ativo]="periodoSelecionado === '6meses'"
+						(click)="selecionarPeriodo('6meses')"
+					>
+						6 Meses
+					</button>
+				</div>
+
+				<div class="metricas-periodo">
+					<div>
+						<span>Total</span>
+						<strong>{{ periodoAtual?.total || 0 | currency: 'BRL' }}</strong>
+					</div>
+					<div>
+						<span>Quantidade</span>
+						<strong>{{ periodoAtual?.quantidade || 0 }}</strong>
+					</div>
+				</div>
+			</article>
+
+			<article class="painel lista">
+				<div class="painel-head">
+					<h2>Ultimos Lancamentos</h2>
+					<p>Recorte de ate 8 gastos no periodo selecionado</p>
+				</div>
+
+				<div *ngIf="gastosPeriodoSelecionado.length === 0" class="vazio">Nenhum gasto encontrado neste periodo.</div>
+
+				<ul *ngIf="gastosPeriodoSelecionado.length > 0" class="lista-gastos">
+					<li *ngFor="let gasto of gastosPeriodoSelecionado">
+						<div>
+							<strong>{{ gasto.tipo }}</strong>
+							<span>{{ gasto.dtCriacao | date: 'dd/MM/yyyy HH:mm' }}</span>
+						</div>
+						<p>{{ gasto.valor | currency: 'BRL' }}</p>
+					</li>
+				</ul>
+			</article>
+		</section>
+	</ng-container>
+</section>
