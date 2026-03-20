@@ -6,7 +6,8 @@ import { CadastrarGastosComponent } from './pages/cadastrar-gastos/cadastrar-gas
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 import { PerfilPageComponent } from './pages/perfil-page/perfil-page.component';
 import { CategoriasPageComponent } from './pages/categorias-page/categorias-page.component';
-import { authenticationGuard } from './services/authentication.guard';
+import { UsuariosPageComponent } from './pages/usuarios-page/usuarios-page.component';
+import { adminGuard, authenticationGuard } from './services/authentication.guard';
 
 export const routes: Routes = [
     {
@@ -29,5 +30,8 @@ export const routes: Routes = [
     },
     {
         path: 'categorias', component: CategoriasPageComponent, canActivate: [authenticationGuard]
+    },
+    {
+        path: 'usuarios', component: UsuariosPageComponent, canActivate: [adminGuard]
     }
 ];

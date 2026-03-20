@@ -23,10 +23,13 @@ export class LoginComponent{
 
   email: string = ''
   senha: string = ''
+  mensagemErro = '';
 
 
 
   onLogin() {
+    this.mensagemErro = '';
+
     console.log('Antes do login:', this.authService.isLoggedIn());
     
     const usuario: UsuarioRequestDto = {
@@ -40,6 +43,8 @@ export class LoginComponent{
         if (response.token) {
           this.authService.saveToken(response.token);
         }
+
+        this.mensagemErro = '';
         console.log('Depois do login:', this.authService.isLoggedIn());
         if (this.authService.isLoggedIn()) {
           this.router.navigate(['/gastos']);
@@ -47,6 +52,13 @@ export class LoginComponent{
       },
       error: (error) => {
         console.error('Erro no login:', error);
+
+        if (error?.status === 401 || error?.status === 403) {
+          this.mensagemErro = 'Login ou senha invalidos.';
+          return;
+        }
+
+        this.mensagemErro = 'Nao foi possivel realizar o login. Tente novamente.';
       }
     });
   }

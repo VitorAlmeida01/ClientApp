@@ -26,5 +26,12 @@
     "icon": "category",
     "description": "Cadastro e listagem de categorias",
     "roles": ["ROLE_USER", "ROLE_ADMIN"]
+  },
+  {
+    "label": "Usuarios",
+    "route": "/usuarios",
+    "icon": "group",
+    "description": "Lista de usuarios cadastrados",
+    "roles": ["ROLE_ADMIN"]
   }
-]
+] 

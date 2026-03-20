@@ -1,0 +1,92 @@
+<section class="usuarios-page">
+    <div class="usuarios-header">
+        <h2>Usuarios</h2>
+        <button mat-stroked-button type="button" (click)="recarregar()">Atualizar</button>
+    </div>
+
+    <mat-card appearance="outlined" class="usuarios-table-card">
+        <div class="table-wrapper">
+            <table class="usuarios-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>ID</th>
+                        <th>Editar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (carregando) {
+                        <tr>
+                            <td colspan="5" class="empty-row">Carregando usuarios...</td>
+                        </tr>
+                    } @else if (erroCarregamento) {
+                        <tr>
+                            <td colspan="5" class="empty-row error-row">{{ erroCarregamento }}</td>
+                        </tr>
+                    } @else if (usuarios.length === 0) {
+                        <tr>
+                            <td colspan="5" class="empty-row">Nenhum usuario cadastrado.</td>
+                        </tr>
+                    } @else {
+                        @for (usuario of usuarios; track usuario.id) {
+                            <tr>
+                                <td>{{ usuario.nome }}</td>
+                                <td>{{ usuario.email }}</td>
+                                <td class="id-cell">{{ usuario.id }}</td>
+                                <td>
+                                    <button mat-icon-button type="button" (click)="abrirModalEdicao(usuario)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button mat-icon-button color="warn" type="button" (click)="excluir(usuario.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </mat-card>
+</section>
+
+@if (modalAberto) {
+    <div class="modal-backdrop" (click)="fecharModal()">
+        <div class="modal-container" (click)="$event.stopPropagation()">
+            <h3>Editar usuario</h3>
+
+            <mat-form-field class="modal-field">
+                <mat-label>Nome</mat-label>
+                <input
+                    matInput
+                    type="text"
+                    placeholder="Nome do usuario"
+                    [(ngModel)]="nomeUsuarioEdicao"
+                    name="nomeUsuarioEdicao"
+                />
+            </mat-form-field>
+
+            <mat-form-field class="modal-field">
+                <mat-label>Email</mat-label>
+                <input
+                    matInput
+                    type="email"
+                    placeholder="email@dominio.com"
+                    [(ngModel)]="emailUsuarioEdicao"
+                    name="emailUsuarioEdicao"
+                />
+            </mat-form-field>
+
+            <div class="modal-actions">
+                <button mat-stroked-button type="button" (click)="fecharModal()">Cancelar</button>
+                <button mat-raised-button color="primary" type="button" (click)="salvarEdicao()">
+                    Atualizar
+                </button>
+            </div>
+        </div>
+    </div>
+}

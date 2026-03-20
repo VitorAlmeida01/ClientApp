@@ -1,0 +1,9 @@
+services:
+  web:
+    image: vitoralmeida06/controle-gastos-web:latest
+    container_name: controle-gastos-web
+    environment:
+      API_BASE_URL: ${API_BASE_URL:?API_BASE_URL is required}
+    ports:
+      - "80:80"
+    restart: always

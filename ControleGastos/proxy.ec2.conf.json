@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://SEU_BACKEND_EC2.amazonaws.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

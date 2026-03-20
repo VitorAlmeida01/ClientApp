@@ -13,3 +13,9 @@
 .example-full-width {
   width: 100%;
 }
+
+.erro-login {
+  margin: 0.25rem 0 0;
+  color: #dc2626;
+  font-size: 0.9rem;
+}
