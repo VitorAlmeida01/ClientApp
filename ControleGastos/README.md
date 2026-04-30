@@ -1,136 +1,222 @@
 # ControleGastos
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.2.
+Aplicação web para controle de gastos pessoais, desenvolvida em Angular 19. Permite cadastrar, categorizar e visualizar despesas com gráficos e filtros por período, além de painel administrativo para gerenciamento de usuários.
 
-## Development server
+---
 
-To start a local development server, run:
+## Funcionalidades
 
-```bash
-ng serve
+### Autenticação
+- Login com e-mail e senha (JWT)
+- Cadastro de novo usuário
+- Logout com limpeza de sessão
+- Proteção de rotas por guards (`authenticationGuard`, `adminGuard`)
+
+### Gastos
+- Listagem de todos os gastos do usuário
+- Cadastro de novo gasto com valor, categoria e descrição
+- Edição e exclusão de gastos (com confirmação)
+- Filtro por categoria
+- Filtro por período: hoje, semana, mês, 6 meses e ano
+
+### Categorias
+- Listagem de categorias
+- Criação, edição e exclusão de categorias
+
+### Dashboard
+- Gráfico de linha: evolução dos gastos no tempo (dia, semana, mês, 6 meses)
+- Gráfico de barras: total de gastos por categoria
+- Cards de resumo: total gasto, ticket médio, maior período e quantidade total
+
+### Perfil
+- Visualização de nome e e-mail extraídos do token JWT
+
+### Administração (admin only)
+- Listagem de todos os usuários
+- Edição e exclusão de usuários
+
+---
+
+## Tecnologias
+
+| Camada | Tecnologia |
+|---|---|
+| Framework | Angular 19.2 |
+| Linguagem | TypeScript 5.8 |
+| UI Components | Angular Material 19.2 |
+| Estilização | Tailwind CSS 4.1 |
+| Gráficos | Chart.js 4.5 |
+| Reatividade | RxJS 7.8 |
+| Testes | Vitest 4.0 |
+| Containerização | Docker + Nginx |
+| Build | Angular CLI 19 |
+
+---
+
+## Estrutura do Projeto
+
+```
+src/app/
+├── components/
+│   ├── login/                    # Formulário de login
+│   ├── sign-up/                  # Formulário de cadastro
+│   ├── card-gastos/              # Card de exibição de gasto
+│   ├── card-cadastro-gastos/     # Formulário de criação/edição de gasto
+│   ├── card-categorias/          # Card de exibição de categoria
+│   ├── card-cadastro-categoria/  # Formulário de criação/edição de categoria
+│   └── card-perfil/              # Card de perfil do usuário
+├── pages/
+│   ├── main-page/                # Página inicial pública
+│   ├── dashboard-page/           # Página de dashboard
+│   ├── cadastrar-gastos/         # Página de gestão de gastos
+│   ├── categorias-page/          # Página de gestão de categorias
+│   ├── perfil-page/              # Página de perfil
+│   └── usuarios-page/            # Página de administração de usuários
+├── dashboard/                    # Componente de gráficos e métricas
+├── shared/
+│   ├── screen-base/              # Layout base com navbar e menu
+│   └── confirmation-dialog/      # Dialog reutilizável de confirmação
+├── services/
+│   ├── Auth/                     # Autenticação e gestão do token JWT
+│   ├── Gastos/                   # CRUD e filtros de gastos
+│   ├── Categorias/               # CRUD de categorias
+│   └── Usuarios/                 # Registro e gestão de usuários
+├── models/                       # Interfaces e DTOs de dados
+└── app.routes.ts                 # Configuração de rotas
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Rotas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+| Rota | Componente | Proteção |
+|---|---|---|
+| `/` | MainPage | Pública |
+| `/login` | LoginComponent | Pública |
+| `/signUp` | SignUpComponent | Pública |
+| `/dashboard` | DashboardPage | `authenticationGuard` |
+| `/gastos` | CadastrarGastos | `authenticationGuard` |
+| `/categorias` | CategoriasPage | `authenticationGuard` |
+| `/perfil` | PerfilPage | `authenticationGuard` |
+| `/usuarios` | UsuariosPage | `adminGuard` |
+
+---
+
+## Endpoints da API
+
+### Auth
+| Método | Rota | Descrição |
+|---|---|---|
+| `POST` | `/api/auth/login` | Login do usuário |
+| `GET` | `/api/auth/me` | Dados do usuário logado |
+
+### Gastos
+| Método | Rota | Descrição |
+|---|---|---|
+| `GET` | `/api/gastos` | Listar todos os gastos |
+| `GET` | `/api/gastos/tipo/{tipo}` | Listar por categoria |
+| `GET` | `/api/gastos/total` | Total geral |
+| `GET` | `/api/gastos/total/tipo/{tipo}` | Total por categoria |
+| `GET` | `/api/gastos/periodo/dia` | Gastos do dia |
+| `GET` | `/api/gastos/periodo/semana` | Gastos da semana |
+| `GET` | `/api/gastos/periodo/mes` | Gastos do mês |
+| `GET` | `/api/gastos/periodo/6meses` | Gastos dos últimos 6 meses |
+| `POST` | `/api/gastos` | Criar gasto |
+| `PUT` | `/api/gastos/{id}` | Atualizar gasto |
+| `DELETE` | `/api/gastos/{id}` | Remover gasto |
+
+### Categorias
+| Método | Rota | Descrição |
+|---|---|---|
+| `GET` | `/api/categorias` | Listar categorias |
+| `POST` | `/api/categorias` | Criar categoria |
+| `PUT` | `/api/categorias/{id}` | Atualizar categoria |
+| `DELETE` | `/api/categorias/{id}` | Remover categoria |
+
+### Usuários
+| Método | Rota | Descrição |
+|---|---|---|
+| `POST` | `/api/usuarios/register` | Cadastrar usuário |
+| `GET` | `/api/usuarios` | Listar usuários (admin) |
+| `PUT` | `/api/usuarios/{id}` | Atualizar usuário |
+| `DELETE` | `/api/usuarios/{id}` | Remover usuário (admin) |
+
+---
+
+## Instalação e Execução
+
+### Pré-requisitos
+- Node.js 20+
+- Angular CLI 19+
+
+### Instalar dependências
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-## Configuracao da API (EC2) via variavel de ambiente
-
-Este projeto foi configurado para ler a URL da API em runtime pela variavel de ambiente `API_BASE_URL`.
-
-### 1. Como funciona
-
-- Antes de iniciar/buildar, o script `npm run runtime-config` gera o arquivo `public/runtime-config.js`.
-- O valor de `API_BASE_URL` e escrito nesse arquivo.
-- O app usa esse valor para converter chamadas `/api/...` em `API_BASE_URL + /api/...`.
-
-### 2. Comandos prontos
-
-Desenvolvimento com backend local (via proxy local):
+### Desenvolvimento com backend local
 
 ```bash
 npm run start:local
 ```
 
-Desenvolvimento apontando para EC2:
+O proxy redireciona `/api` para `http://localhost:8080`.
+
+### Desenvolvimento apontando para EC2
 
 ```bash
 API_BASE_URL=https://seu-backend-ec2.amazonaws.com npm run start:ec2
 ```
 
-Build de producao apontando para EC2:
+### Build de produção
 
 ```bash
+# Com URL externa
 API_BASE_URL=https://seu-backend-ec2.amazonaws.com npm run build:prod
-```
 
-Build sem URL (mantem chamadas relativas `/api`):
-
-```bash
+# Com chamadas relativas /api
 npm run build:prod
 ```
 
-### 3. Proxy em desenvolvimento
+Os artefatos de build ficam em `dist/controle-gastos`.
 
-- `proxy.conf.json`: `/api` -> `http://localhost:8080`
-- `proxy.ec2.conf.json`: `/api` -> `https://SEU_BACKEND_EC2.amazonaws.com`
+---
 
-### 4. Observacoes de producao
+## Docker
 
-- Publique o conteudo de `dist/controle-gastos` apos o build.
-- Se front e API estiverem em dominios diferentes, configure CORS no backend.
-- Prefira HTTPS + dominio (ex: `api.seudominio.com`).
-
-### 5. Imagem Docker com API_BASE_URL em runtime
-
-Build da imagem:
+### Build da imagem
 
 ```bash
 docker compose build web
 ```
 
-Subir container informando a URL da API:
+### Subir o container
 
 ```bash
-API_BASE_URL=http://34.204.168.225:8080 docker compose up -d
+API_BASE_URL=http://seu-backend:8080 docker compose up -d
 ```
 
-Ver logs do container:
+### Logs
 
 ```bash
 docker compose logs -f web
 ```
 
-Parar:
+### Parar
 
 ```bash
 docker compose down
 ```
 
-Observacao:
+A variável `API_BASE_URL` é injetada em runtime via `public/runtime-config.js`, sem necessidade de rebuild da imagem.
 
-- Com essa abordagem, voce pode trocar `API_BASE_URL` na subida do container sem alterar codigo.
+---
+
+## Testes
+
+```bash
+ng test
+```
+
+Utiliza [Vitest](https://vitest.dev/) como test runner.
